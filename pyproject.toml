@@ -1,0 +1,11 @@
+[project]
+name = "uns-governance-demo"
+version = "0.1.0"
+description = "Ask Your Factory Floor Anything: Structuring Industrial Data for AI Agents"
+requires-python = ">=3.12"
+dependencies = [
+    "paho-mqtt>=2.1.0",
+    "psycopg-pool>=3.3.0",
+    "psycopg[binary]>=3.3.2",
+    "python-dotenv>=1.2.1",
+]

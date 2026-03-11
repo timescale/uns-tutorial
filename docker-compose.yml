@@ -1,0 +1,31 @@
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: uns-mqtt-broker
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+    security_opt:
+      - apparmor=unconfined
+    restart: unless-stopped
+
+  timescaledb:
+    image: timescale/timescaledb:latest-pg16
+    container_name: uns-timescaledb
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: uns_demo
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./db/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+      - timescale_data:/var/lib/postgresql/data
+    security_opt:
+      - apparmor=unconfined
+    restart: unless-stopped
+
+volumes:
+  timescale_data:
